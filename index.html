@@ -221,7 +221,15 @@
   @media (prefers-reduced-motion: reduce){
     *{ animation: none !important; transition: none !important; }
   }
+
+  /* මොබයිල් ස්ක්‍රීන් එකෙන් පිටුව පැත්තකට ඇදී යාම වැළැක්වීමට */
+  html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden !important;
+  }
 </style>
+
 </head>
 <body class="bg-mesh antialiased selection:bg-[var(--teal)] selection:text-[#0A0F1C]">
 
@@ -283,7 +291,7 @@
       <div data-aos="fade-right" data-aos-duration="900" class="text-center lg:text-left">
         <span class="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-[var(--gold)] bg-[var(--gold-soft)] border border-[var(--gold)]/25 px-4 py-1.5 rounded-full">
           <span class="w-1.5 h-1.5 rounded-full bg-[var(--gold)]"></span>
-          Digital Transformation Studio · Sri Lanka
+          Digital Transformation Studio
         </span>
         <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-[4.2rem] leading-[1.05] font-semibold mt-7 mb-6 tracking-tight">
           Engineering the <span class="text-gradient font-medium">Digital Future</span> - one build at a time.
