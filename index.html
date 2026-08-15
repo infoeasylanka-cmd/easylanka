@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Easy Lanka | Digital Transformation Studio</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          display: ['Fraunces', 'serif'],
+          sans: ['Inter', 'sans-serif'],
+          mono: ['"JetBrains Mono"', 'monospace'],
+        },
+      }
+    }
+  }
+</script>
+
+<style>
+  :root{
+    --bg: #080D18;
+    --bg-soft: #0C1424;
+    --surface: #101A2E;
+    --surface-2: #16223A;
+    --line: rgba(232,240,250,0.08);
+    --ink: #F2F5FA;
+    --muted: #8493AC;
+    --gold: #E8B75D;
+    --gold-soft: rgba(232,183,93,0.14);
+    --teal: #2FD9C7;
+    --teal-soft: rgba(47,217,199,0.14);
+  }
+  *{ scrollbar-color: var(--surface-2) var(--bg); }
+  body{
+    font-family:'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+  h1,h2,h3,h4,.font-display{ font-family:'Fraunces','serif'; }
+  .font-mono{ font-family:'JetBrains Mono', monospace; }
+
+  .bg-mesh{
+    background:
+      radial-gradient(60% 50% at 85% -5%, rgba(47,217,199,0.16), transparent 60%),
+      radial-gradient(45% 40% at 5% 10%, rgba(232,183,93,0.10), transparent 60%),
+      radial-gradient(80% 60% at 50% 110%, rgba(47,217,199,0.06), transparent 60%),
+      var(--bg);
+  }
+
+  .glass{
+    background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.01));
+    border: 1px solid var(--line);
+    backdrop-filter: blur(14px);
+  }
+
+  /* Animation box සඳහා blur එක ඉවත් කර clear ලෙස සකසා ඇත */
+  .animation-clear-box{
+    background: rgba(12, 20, 36, 0.4);
+    border: 1px solid var(--line);
+  }
+
+  .text-gradient{
+    background: linear-gradient(100deg, var(--gold) 0%, #F3D189 35%, var(--teal) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+    line-height: 1.2;
+    padding-right: 0.12em;
+    margin-right: -0.12em;
+  }
+
+  .btn-primary{
+    background: linear-gradient(100deg, var(--gold), #F3D189);
+    color: #0A0F1C;
+    box-shadow: 0 8px 30px -8px rgba(232,183,93,0.55);
+  }
+  .btn-primary:hover{ box-shadow: 0 10px 34px -6px rgba(232,183,93,0.7); transform: translateY(-1px); }
+
+  .btn-outline{
+    border: 1px solid var(--line);
+    color: var(--ink);
+    transition: border-color .3s ease, background .3s ease;
+  }
+  .btn-outline:hover{ border-color: rgba(47,217,199,0.5); background: var(--teal-soft); }
+
+  a:focus-visible, button:focus-visible{
+    outline: 2px solid var(--teal);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* ---- Weave / circuit signature motif ---- */
+  .weave-glow circle{ filter: drop-shadow(0 0 6px rgba(47,217,199,0.55)); }
+  .weave-glow circle.gold{ filter: drop-shadow(0 0 6px rgba(232,183,93,0.55)); }
+  .weave-line{
+    stroke-dasharray: 6 10;
+    animation: weave-flow 5s linear infinite;
+  }
+  @keyframes weave-flow{ to{ stroke-dashoffset: -160; } }
+  .weave-pulse{ animation: weave-pulse 3.2s ease-in-out infinite; }
+  @keyframes weave-pulse{
+    0%,100%{ opacity:.55; r:3.2; }
+    50%{ opacity:1; r:4.6; }
+  }
+
+  /* ---- Tech marquee ---- */
+  .marquee-track{
+    display:flex; width:max-content;
+    animation: marquee 26s linear infinite;
+  }
+  @keyframes marquee{ from{ transform: translateX(0);} to{ transform: translateX(-50%);} }
+  .marquee-wrap:hover .marquee-track{ animation-play-state: paused; }
+
+  /* ---- Process rail ---- */
+  .rail-line{
+    position:absolute; top:27px; left:6%; right:6%; height:2px;
+    background: linear-gradient(90deg, transparent, var(--line) 10%, var(--line) 90%, transparent);
+    z-index:0;
+  }
+  .rail-line::after{
+    content:''; position:absolute; top:-1px; left:0; height:4px; width:30%;
+    background: linear-gradient(90deg, transparent, var(--teal), transparent);
+    border-radius: 999px;
+    animation: rail-flow 4.5s ease-in-out infinite;
+    opacity:.9;
+  }
+  @keyframes rail-flow{
+    0%{ left:-30%; }
+    100%{ left:100%; }
+  }
+  .node-dot{
+    width:14px; height:14px; border-radius:999px;
+    background: var(--bg-soft);
+    border:2px solid var(--teal);
+    box-shadow: 0 0 0 4px rgba(47,217,199,0.12), 0 0 14px rgba(47,217,199,0.5);
+  }
+
+  /* ---- Photo treatment ---- */
+  .photo-tint{ position: relative; overflow: hidden; }
+  .photo-tint img{
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    filter: grayscale(35%) contrast(1.08) brightness(0.85);
+  }
+  .photo-tint::after{
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(155deg, rgba(8,13,24,0.88) 0%, rgba(47,217,199,0.22) 55%, rgba(232,183,93,0.22) 100%);
+    mix-blend-mode: multiply;
+  }
+  .photo-tint::before{
+    content: ''; position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(0deg, rgba(8,13,24,0.55) 0%, transparent 50%);
+  }
+
+  /* ---- Work mockups ---- */
+  .browser-frame{
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .browser-chrome{
+    display:flex; align-items:center; gap:6px;
+    padding: 10px 14px;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--line);
+  }
+  .browser-dot{ width:8px; height:8px; border-radius:999px; background: rgba(255,255,255,0.15); }
+  .mock-bar{ border-radius: 6px; background: linear-gradient(90deg, rgba(47,217,199,0.25), rgba(232,183,93,0.18)); }
+  .mock-block{ border-radius: 10px; background: var(--surface-2); border: 1px solid var(--line); }
+
+  .phone-frame{
+    background: var(--bg-soft);
+    border: 8px solid var(--surface-2);
+    border-radius: 34px;
+    overflow: hidden;
+  }
+  .phone-notch{
+    width: 60px; height: 6px; border-radius: 999px;
+    background: rgba(255,255,255,0.12);
+    margin: 10px auto 4px;
+  }
+
+  .avatar-badge{
+    width: 46px; height: 46px; border-radius: 999px;
+    display:flex; align-items:center; justify-content:center;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight:600; font-size: 0.85rem;
+    color: #0A0F1C;
+    flex-shrink:0;
+  }
+
+  /* නව මෙනු අකුරු සහ ස්ටයිල් (Font Size වැඩි කර, Semi-bold කර ඇත) */
+  .nav-link {
+    padding: 9px 20px;
+    border-radius: 999px;
+    font-size: 0.93rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+  }
+  .nav-link.active {
+    background: rgba(232, 183, 93, 0.16);
+    color: var(--gold);
+    border: 1px solid rgba(232, 183, 93, 0.25);
+    box-shadow: 0 4px 20px -4px rgba(232, 183, 93, 0.15);
+  }
+  .nav-link:hover:not(.active) {
+    color: var(--ink);
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body class="bg-mesh antialiased selection:bg-[var(--teal)] selection:text-[#0A0F1C]">
+
+  <!-- Navigation Bar -->
+  <nav class="sticky top-0 z-50 backdrop-blur-xl bg-[#080D18]/90 border-b border-[var(--line)] px-6 md:px-14 py-4 flex items-center justify-between">
+    
+    <!-- Logo & Short Description -->
+    <div class="flex items-center gap-4">
+      <a href="index.html" class="flex items-center gap-2.5 text-lg font-semibold tracking-tight text-white">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M13 1L25 13L13 25L1 13L13 1Z" stroke="url(#navGrad)" stroke-width="1.4"/>
+          <path d="M13 7L19 13L13 19L7 13L13 7Z" stroke="url(#navGrad)" stroke-width="1.4"/>
+          <circle cx="13" cy="13" r="2" fill="#2FD9C7"/>
+          <defs><linearGradient id="navGrad" x1="1" y1="1" x2="25" y2="25"><stop stop-color="#E8B75D"/><stop offset="1" stop-color="#2FD9C7"/></linearGradient></defs>
+        </svg>
+        EASY<span class="text-[var(--teal)]">LANKA</span>
+      </a>
+      <span class="hidden lg:inline-block text-[var(--line)]">|</span>
+      <span class="hidden lg:inline-block text-xs font-mono text-[var(--muted)] tracking-wider">Digital Studio · Sri Lanka</span>
+    </div>
+
+    <!-- Desktop Navigation Links (දකුණු කෙළවරින් ඈත් කර, නිසි ලෙස සකසා ඇත) -->
+    <div class="hidden md:flex items-center gap-3 text-[var(--muted)] font-mono mr-12">
+      <a href="index.html" class="nav-link active">Home</a>
+      <a href="services.html" class="nav-link">Services</a>
+      <a href="pricing.html" class="nav-link">Pricing</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+      <a href="work.html" class="nav-link">Portfolio</a>
+    </div>
+
+    <!-- Mobile Hamburger Button -->
+    <button id="menu-btn" aria-label="Toggle Menu" class="md:hidden text-[var(--ink)] focus:outline-none p-2 relative z-50">
+      <svg id="menu-icon" class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Professional Mobile Drawer Menu Overlay -->
+  <div id="mobile-menu" class="fixed inset-0 z-40 bg-[#080D18]/95 backdrop-blur-2xl flex flex-col justify-center px-8 transition-all duration-300 opacity-0 pointer-events-none md:hidden">
+    <div class="flex flex-col space-y-6 text-center font-mono">
+      <a href="index.html" class="mobile-link text-xl text-[var(--teal)] font-semibold tracking-wider hover:text-white">Home</a>
+      <a href="services.html" class="mobile-link text-xl text-[var(--muted)] font-semibold tracking-wider hover:text-white">Services</a>
+      <a href="pricing.html" class="mobile-link text-xl text-[var(--muted)] font-semibold tracking-wider hover:text-white">Pricing</a>
+      <a href="contact.html" class="mobile-link text-xl text-[var(--muted)] font-semibold tracking-wider hover:text-white">Contact</a>
+      <a href="work.html" class="mobile-link text-xl text-[var(--muted)] font-semibold tracking-wider hover:text-white">Portfolio</a>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <div class="relative overflow-hidden">
+    <!-- Hero Background Image Restored -->
+    <div class="absolute inset-0 opacity-[0.16] pointer-events-none" aria-hidden="true">
+      <img src="https://images.unsplash.com/photo-1758873268745-dd2cf0d677b5?auto=format&fit=crop&q=80&w=1800" alt="" class="w-full h-full object-cover" style="filter: grayscale(60%) contrast(1.1) brightness(0.75);">
+      <div class="absolute inset-0" style="background: linear-gradient(180deg, var(--bg) 0%, transparent 35%, transparent 65%, var(--bg) 100%), linear-gradient(90deg, var(--bg) 0%, transparent 30%);"></div>
+    </div>
+
+    <section class="max-w-7xl mx-auto px-6 md:px-10 pt-12 pb-20 lg:pt-24 lg:pb-32 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center relative z-10">
+      <div data-aos="fade-right" data-aos-duration="900" class="text-center lg:text-left">
+        <span class="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-[var(--gold)] bg-[var(--gold-soft)] border border-[var(--gold)]/25 px-4 py-1.5 rounded-full">
+          <span class="w-1.5 h-1.5 rounded-full bg-[var(--gold)]"></span>
+          Digital Transformation Studio · Sri Lanka
+        </span>
+        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-[4.2rem] leading-[1.05] font-semibold mt-7 mb-6 tracking-tight">
+          Engineering the <span class="text-gradient font-medium">Digital Future</span> - one build at a time.
+        </h1>
+        <p class="text-[var(--muted)] text-base md:text-lg mb-10 max-w-md mx-auto lg:mx-0 leading-relaxed">
+        We design and ship web platforms, custom software and mobile products for ambitious businesses worldwide — built to scale from day one.
+        </p>
+        <div class="flex flex-wrap justify-center lg:justify-start items-center gap-4">
+          <a href="services.html" class="btn-primary px-8 py-4 rounded-full font-semibold transition-all duration-300">Our Services</a>
+          <a href="contact.html" class="btn-outline px-8 py-4 rounded-full font-semibold transition-all duration-300">Contact Us</a>
+        </div>
+      </div>
+
+      <!-- Signature graphic: weave-to-circuit lattice (Clear background without blur) -->
+      <div data-aos="fade-left" data-aos-duration="900" class="relative flex items-center justify-center mt-6 lg:mt-0">
+        <div class="relative w-full max-w-[480px] aspect-square rounded-[2.5rem] animation-clear-box p-6 overflow-hidden">
+          <svg viewBox="0 0 400 400" class="w-full h-full weave-glow">
+            <defs>
+              <linearGradient id="lineGrad" x1="0" y1="0" x2="400" y2="400" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#E8B75D"/>
+                <stop offset="100%" stop-color="#2FD9C7"/>
+              </linearGradient>
+            </defs>
+            <g stroke="url(#lineGrad)" stroke-width="1" fill="none" opacity="0.8">
+              <path class="weave-line" d="M40 200 L120 120 L200 200 L120 280 Z"/>
+              <path class="weave-line" d="M200 200 L280 120 L360 200 L280 280 Z"/>
+              <path class="weave-line" d="M120 120 L200 40 L280 120"/>
+              <path class="weave-line" d="M120 280 L200 360 L280 280"/>
+            </g>
+            <g fill="#2FD9C7">
+              <circle class="weave-pulse" cx="200" cy="200" r="4"/>
+              <circle class="weave-pulse" cx="120" cy="120" r="3.2" style="animation-delay:.3s"/>
+              <circle class="weave-pulse" cx="280" cy="120" r="3.2" style="animation-delay:.6s"/>
+              <circle class="weave-pulse" cx="120" cy="280" r="3.2" style="animation-delay:.9s"/>
+              <circle class="weave-pulse" cx="280" cy="280" r="3.2" style="animation-delay:1.2s"/>
+            </g>
+            <g fill="#E8B75D">
+              <circle class="weave-pulse gold" cx="40" cy="200" r="3" style="animation-delay:.2s"/>
+              <circle class="weave-pulse gold" cx="360" cy="200" r="3" style="animation-delay:.5s"/>
+              <circle class="weave-pulse gold" cx="200" cy="40" r="3" style="animation-delay:.8s"/>
+              <circle class="weave-pulse gold" cx="200" cy="360" r="3" style="animation-delay:1.1s"/>
+            </g>
+          </svg>
+        </div>
+        <div class="absolute -bottom-6 -left-6 animation-clear-box p-6 rounded-2xl hidden sm:block">
+          <div class="text-[var(--teal)] font-display font-semibold text-3xl">100%</div>
+          <div class="text-xs font-mono text-[var(--muted)] mt-1 uppercase tracking-wide">Client Satisfaction</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Tech marquee -->
+  <section class="border-y border-[var(--line)] bg-[var(--bg-soft)] py-5 overflow-hidden marquee-wrap">
+    <div class="marquee-track font-mono text-sm text-[var(--muted)] gap-10 pr-10">
+      <div class="flex gap-10">
+        <span>React</span><span class="text-[var(--teal)]">•</span>
+        <span>Node.js</span><span class="text-[var(--teal)]">•</span>
+        <span>AWS</span><span class="text-[var(--teal)]">•</span>
+        <span>Flutter</span><span class="text-[var(--teal)]">•</span>
+        <span>PostgreSQL</span><span class="text-[var(--teal)]">•</span>
+        <span>Next.js</span><span class="text-[var(--teal)]">•</span>
+        <span>Kubernetes</span><span class="text-[var(--teal)]">•</span>
+        <span>TypeScript</span><span class="text-[var(--teal)]">•</span>
+      </div>
+      <div class="flex gap-10" aria-hidden="true">
+        <span>React</span><span class="text-[var(--teal)]">•</span>
+        <span>Node.js</span><span class="text-[var(--teal)]">•</span>
+        <span>AWS</span><span class="text-[var(--teal)]">•</span>
+        <span>Flutter</span><span class="text-[var(--teal)]">•</span>
+        <span>PostgreSQL</span><span class="text-[var(--teal)]">•</span>
+        <span>Next.js</span><span class="text-[var(--teal)]">•</span>
+        <span>Kubernetes</span><span class="text-[var(--teal)]">•</span>
+        <span>TypeScript</span><span class="text-[var(--teal)]">•</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Craft / People Section -->
+  <section class="max-w-7xl mx-auto px-6 md:px-10 py-20 lg:py-24">
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div data-aos="fade-right">
+        <span class="font-mono text-xs uppercase tracking-[0.2em] text-[var(--teal)]">Who's Behind It</span>
+       <h2 class="text-3xl md:text-5xl font-semibold mt-4 mb-6 tracking-tight">Built by people who sweat the details.</h2>
+        <p class="text-[var(--muted)] text-base md:text-lg leading-relaxed mb-9 max-w-md">Every project runs through a small, senior team — no handoffs to strangers, no templated output. You talk to the people actually writing the code.</p>
+        <div class="flex gap-12 font-mono">
+          <div>
+            <div class="text-3xl font-display font-semibold text-gradient">4hrs</div>
+            <div class="text-[var(--muted)] text-xs mt-1 uppercase tracking-wide">Avg. reply time</div>
+          </div>
+          <div>
+            <div class="text-3xl font-display font-semibold text-gradient">100%</div>
+            <div class="text-[var(--muted)] text-xs mt-1 uppercase tracking-wide">In-house team</div>
+          </div>
+        </div>
+      </div>
+      <div data-aos="fade-left" class="relative">
+        <div class="photo-tint rounded-[2rem] aspect-[4/5] glass">
+          <img src="https://images.unsplash.com/photo-1770159116807-9b2a7bb82294?auto=format&fit=crop&q=80&w=900" alt="Developer working late on a laptop">
+        </div>
+        <div class="absolute -bottom-6 -right-6 glass p-5 rounded-2xl max-w-[210px] hidden sm:block">
+          <div class="font-mono text-xs text-[var(--gold)] uppercase tracking-wide mb-1">Studio Note</div>
+          <p class="text-sm text-[var(--ink)]/90 leading-snug">No outsourcing, no juniors left unsupervised.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How We Work Section -->
+  <section class="py-20 lg:py-24 px-6 md:px-10 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center max-w-2xl mx-auto mb-16 lg:mb-20" data-aos="fade-up">
+        <h2 class="text-3xl md:text-5xl font-semibold mt-6 tracking-tight">How we build your vision</h2>
+        <p class="text-[var(--muted)] mt-4 text-sm md:text-base">A connected, four-stage process — each step feeding directly into the next.</p>
+      </div>
+
+      <div class="relative">
+        <div class="rail-line hidden md:block"></div>
+        <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-6 relative z-10">
+
+          <!-- 01 / Discovery -->
+          <div data-aos="fade-up" data-aos-delay="100" class="flex flex-col items-center md:items-start">
+            <div class="node-dot mb-6 hidden md:block"></div>
+            <div class="glass p-6 md:p-8 rounded-[28px] w-full text-center md:text-left group hover:border-[var(--teal)]/40 transition-all duration-500 hover:-translate-y-1">
+              <div class="font-mono text-xs text-[var(--teal)] mb-3 tracking-wider">STAGE 01</div>
+              <h4 class="text-2xl font-semibold mb-3 font-display">Discovery</h4>
+              <p class="text-[var(--muted)] text-sm leading-relaxed">We map your business requirements and set a strategic roadmap before writing a line of code.</p>
+            </div>
+          </div>
+
+          <!-- 02 / Design -->
+          <div data-aos="fade-up" data-aos-delay="200" class="flex flex-col items-center md:items-start">
+            <div class="node-dot mb-6 hidden md:block"></div>
+            <div class="glass p-6 md:p-8 rounded-[28px] w-full text-center md:text-left group hover:border-[var(--gold)]/40 transition-all duration-500 hover:-translate-y-1">
+              <div class="font-mono text-xs text-[var(--gold)] mb-3 tracking-wider">STAGE 02</div>
+              <h4 class="text-2xl font-semibold mb-3 font-display">Design</h4>
+              <p class="text-[var(--muted)] text-sm leading-relaxed">High-fidelity UI/UX and responsive mockups crafted around your brand, not a stock template.</p>
+            </div>
+          </div>
+
+          <!-- 03 / Develop -->
+          <div data-aos="fade-up" data-aos-delay="300" class="flex flex-col items-center md:items-start">
+            <div class="node-dot mb-6 hidden md:block"></div>
+            <div class="glass p-6 md:p-8 rounded-[28px] w-full text-center md:text-left group hover:border-[var(--teal)]/40 transition-all duration-500 hover:-translate-y-1">
+              <div class="font-mono text-xs text-[var(--teal)] mb-3 tracking-wider">STAGE 03</div>
+              <h4 class="text-2xl font-semibold mb-3 font-display">Develop</h4>
+              <p class="text-[var(--muted)] text-sm leading-relaxed">Clean, tested, scalable code — built in the open with regular check-ins, not a black box.</p>
+            </div>
+          </div>
+
+          <!-- 04 / Deploy -->
+          <div data-aos="fade-up" data-aos-delay="400" class="flex flex-col items-center md:items-start">
+            <div class="node-dot mb-6 hidden md:block"></div>
+            <div class="glass p-6 md:p-8 rounded-[28px] w-full text-center md:text-left group hover:border-[var(--gold)]/40 transition-all duration-500 hover:-translate-y-1">
+              <div class="font-mono text-xs text-[var(--gold)] mb-3 tracking-wider">STAGE 04</div>
+              <h4 class="text-2xl font-semibold mb-3 font-display">Deploy</h4>
+              <p class="text-[var(--muted)] text-sm leading-relaxed">Secure, monitored launches with support in place from day one, not left to chance.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+   <!-- Features Section -->
+  <section class="max-w-7xl mx-auto px-6 md:px-10 py-20 lg:py-24">
+    <div class="max-w-xl mb-16" data-aos="fade-up">
+      <span class="font-mono text-xs uppercase tracking-[0.2em] text-[var(--teal)]">What We Build</span>
+      <h2 class="text-3xl md:text-5xl font-semibold mt-4 tracking-tight">Three disciplines, one team.</h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+ 
+      <!-- Scalable Web -->
+      <div data-aos="fade-up" data-aos-delay="100" class="glass p-6 rounded-3xl hover:border-[var(--teal)]/40 transition-colors duration-500">
+        <div class="browser-frame mb-6">
+          <div class="browser-chrome">
+            <span class="browser-dot"></span><span class="browser-dot"></span><span class="browser-dot"></span>
+          </div>
+          <div class="p-4 space-y-3">
+            <div class="mock-bar h-5 w-1/2"></div>
+            <div class="grid grid-cols-3 gap-2">
+              <div class="mock-block h-14"></div>
+              <div class="mock-block h-14"></div>
+              <div class="mock-block h-14"></div>
+            </div>
+          </div>
+        </div>
+        <div class="font-mono text-xs text-[var(--teal)] mb-2 tracking-wider">WEB</div>
+        <h3 class="text-xl font-semibold mb-3 font-display">Scalable Web</h3>
+        <p class="text-[var(--muted)] leading-relaxed text-sm md:text-base">Fast, resilient websites and web apps engineered to hold up under real traffic and grow with your business.</p>
+      </div>
+ 
+      <!-- Custom Software -->
+      <div data-aos="fade-up" data-aos-delay="200" class="glass p-6 rounded-3xl hover:border-[var(--gold)]/40 transition-colors duration-500">
+        <div class="browser-frame mb-6">
+          <div class="browser-chrome">
+            <span class="browser-dot"></span><span class="browser-dot"></span><span class="browser-dot"></span>
+          </div>
+          <div class="p-4 space-y-3">
+            <div class="grid grid-cols-2 gap-2">
+              <div class="mock-block h-20"></div>
+              <div class="space-y-2">
+                <div class="mock-bar h-4 w-full"></div>
+                <div class="mock-block h-7"></div>
+                <div class="mock-block h-7"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="font-mono text-xs text-[var(--gold)] mb-2 tracking-wider">SOFTWARE</div>
+        <h3 class="text-xl font-semibold mb-3 font-display">Custom Software</h3>
+        <p class="text-[var(--muted)] leading-relaxed text-sm md:text-base">Purpose-built systems designed around how your team actually works, not a generic template.</p>
+      </div>
+ 
+      <!-- Modern Mobile -->
+      <div data-aos="fade-up" data-aos-delay="300" class="glass p-6 rounded-3xl hover:border-[var(--teal)]/40 transition-colors duration-500">
+        <div class="flex justify-center mb-6">
+          <div class="phone-frame w-36">
+            <div class="phone-notch"></div>
+            <div class="p-3 space-y-2.5">
+              <div class="mock-bar h-14"></div>
+              <div class="mock-block h-8"></div>
+              <div class="mock-block h-8"></div>
+            </div>
+          </div>
+        </div>
+        <div class="font-mono text-xs text-[var(--teal)] mb-2 tracking-wider">MOBILE</div>
+        <h3 class="text-xl font-semibold mb-3 font-display">Modern Mobile</h3>
+        <p class="text-[var(--muted)] leading-relaxed text-sm md:text-base">Native-feeling iOS and Android apps, designed to keep people coming back to your product.</p>
+      </div>
+ 
+    </div>
+  </section>
+
+<!-- Testimonials Section -->
+<section class="max-w-[95rem] mx-auto px-6 py-24">
+  <div class="text-center mb-20" data-aos="fade-up">
+    <span class="font-mono text-xs uppercase tracking-[0.3em] text-[var(--teal)]">Client Voices</span>
+    <h2 class="text-4xl md:text-6xl font-semibold mt-6 tracking-tight">What our clients say</h2>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+    <!-- Card 1: Chamath -->
+    <div data-aos="fade-up" data-aos-delay="100" class="group relative bg-white/[0.03] border border-white/5 p-8 rounded-[2rem] hover:bg-white/[0.06] hover:border-[var(--teal)]/30 transition-all duration-500">
+      <div class="flex flex-col h-full">
+        <svg class="w-8 h-8 text-[var(--teal)]/20 mb-6 group-hover:text-[var(--teal)]/50 transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M7.17 6A5.17 5.17 0 002 11.17V18h6.83v-6.83H5.66a2.34 2.34 0 012.34-2.34V6h-0.83zm10 0A5.17 5.17 0 0012 11.17V18h6.83v-6.83h-3.17a2.34 2.34 0 012.34-2.34V6h-0.83z"/></svg>
+        <p class="text-[var(--ink)]/80 leading-relaxed text-sm flex-grow mb-8 font-light italic">"I highly recommend this web designer! Very professional, creative, and reliable. They understood exactly what I needed and delivered a modern, professional website with excellent attention to detail."</p>
+        <div class="flex items-center gap-4 pt-6 border-t border-white/5">
+          <div class="w-10 h-10 rounded-full bg-[var(--teal)]/20 grid place-content-center text-xs font-bold text-[var(--teal)]">CR</div>
+          <div>
+            <div class="font-semibold text-sm">Chamath R.</div>
+            <div class="text-[10px] uppercase tracking-widest text-[var(--muted)]">Business Owner</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2: Rashmi -->
+    <div data-aos="fade-up" data-aos-delay="200" class="group relative bg-white/[0.03] border border-white/5 p-8 rounded-[2rem] hover:bg-white/[0.06] hover:border-[var(--gold)]/30 transition-all duration-500">
+      <div class="flex flex-col h-full">
+        <svg class="w-8 h-8 text-[var(--gold)]/20 mb-6 group-hover:text-[var(--gold)]/50 transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M7.17 6A5.17 5.17 0 002 11.17V18h6.83v-6.83H5.66a2.34 2.34 0 012.34-2.34V6h-0.83zm10 0A5.17 5.17 0 0012 11.17V18h6.83v-6.83h-3.17a2.34 2.34 0 012.34-2.34V6h-0.83z"/></svg>
+        <p class="text-[var(--ink)]/80 leading-relaxed text-sm flex-grow mb-8 font-light italic">"Easylanka.lk provides excellent technical support and customer service. They are really professional. New website designs and implementations are completed quickly, and they immediately fix my problems."</p>
+        <div class="flex items-center gap-4 pt-6 border-t border-white/5">
+          <div class="w-10 h-10 rounded-full bg-[var(--gold)]/20 grid place-content-center text-xs font-bold text-[var(--gold)]">RD</div>
+          <div>
+            <div class="font-semibold text-sm">Rashmi D.</div>
+            <div class="text-[10px] uppercase tracking-widest text-[var(--muted)]">Project Lead</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3: Janitha -->
+    <div data-aos="fade-up" data-aos-delay="300" class="group relative bg-white/[0.03] border border-white/5 p-8 rounded-[2rem] hover:bg-white/[0.06] hover:border-[var(--teal)]/30 transition-all duration-500">
+      <div class="flex flex-col h-full">
+        <svg class="w-8 h-8 text-[var(--teal)]/20 mb-6 group-hover:text-[var(--teal)]/50 transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M7.17 6A5.17 5.17 0 002 11.17V18h6.83v-6.83H5.66a2.34 2.34 0 012.34-2.34V6h-0.83zm10 0A5.17 5.17 0 0012 11.17V18h6.83v-6.83h-3.17a2.34 2.34 0 012.34-2.34V6h-0.83z"/></svg>
+        <p class="text-[var(--ink)]/80 leading-relaxed text-sm flex-grow mb-8 font-light italic">"ඉතාම සුහදශීලී කාර්යමණ්ඩලයක්, සැමවිටම සේවාදායකයා ගැන සිතමින් ඉතාම ඉහල සහ ගුණාත්මක සේවාවක් ලබාදෙන ආයතනයකි. 👍👍"</p>
+        <div class="flex items-center gap-4 pt-6 border-t border-white/5">
+          <div class="w-10 h-10 rounded-full bg-[var(--teal)]/20 grid place-content-center text-xs font-bold text-[var(--teal)]">JS</div>
+          <div>
+            <div class="font-semibold text-sm">Janitha S.</div>
+            <div class="text-[10px] uppercase tracking-widest text-[var(--muted)]">Manager</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4: Sri Jayani -->
+    <div data-aos="fade-up" data-aos-delay="400" class="group relative bg-white/[0.03] border border-white/5 p-8 rounded-[2rem] hover:bg-white/[0.06] hover:border-[var(--gold)]/30 transition-all duration-500">
+      <div class="flex flex-col h-full">
+        <svg class="w-8 h-8 text-[var(--gold)]/20 mb-6 group-hover:text-[var(--gold)]/50 transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M7.17 6A5.17 5.17 0 002 11.17V18h6.83v-6.83H5.66a2.34 2.34 0 012.34-2.34V6h-0.83zm10 0A5.17 5.17 0 0012 11.17V18h6.83v-6.83h-3.17a2.34 2.34 0 012.34-2.34V6h-0.83z"/></svg>
+        <p class="text-[var(--ink)]/80 leading-relaxed text-sm flex-grow mb-8 font-light italic">"Best and super team. <br> 📍 very helpful staff <br> 📍 most practical solution <br> 📍 best price."</p>
+        <div class="flex items-center gap-4 pt-6 border-t border-white/5">
+          <div class="w-10 h-10 rounded-full bg-[var(--gold)]/20 grid place-content-center text-xs font-bold text-[var(--gold)]">SJ</div>
+          <div>
+            <div class="font-semibold text-sm">Sri Jayani</div>
+            <div class="text-[10px] uppercase tracking-widest text-[var(--muted)]">Event Coordinator</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+  <!-- Closing CTA -->
+  <section class="max-w-7xl mx-auto px-6 md:px-10 pb-24">
+    <div data-aos="fade-up" class="glass rounded-[2rem] md:rounded-[2.5rem] px-6 sm:px-12 md:px-16 py-14 text-center relative overflow-hidden">
+      <div class="absolute inset-0 opacity-40 pointer-events-none" style="background: radial-gradient(60% 80% at 50% 0%, rgba(47,217,199,0.14), transparent 70%);"></div>
+      <h2 class="text-3xl md:text-5xl font-semibold tracking-tight mb-5 relative">Have a project in mind?</h2>
+      <p class="text-[var(--muted)] text-sm md:text-base max-w-lg mx-auto mb-8 md:mb-10 relative">Tell us what you're building. We'll reply within one business day with next steps.</p>
+      <a href="contact.html" class="btn-primary px-9 py-4 rounded-full font-semibold inline-block transition-all duration-300 relative">Concatct Us</a>
+    </div>
+  </section>
+
+<!-- Footer -->
+  <footer class="border-t border-[var(--line)] px-6 md:px-10 py-12 mt-20">
+    <div class="max-w-7xl mx-auto text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="text-sm text-[var(--muted)] font-mono">
+        © 2026 Easy Lanka. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({ once: true, duration: 800, easing: 'ease-out-cubic' });
+</script>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ once: true, duration: 800, easing: 'ease-out-cubic' });
+
+    // Mobile Menu Toggle Script
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+
+    function toggleMenu() {
+      const isOpen = mobileMenu.classList.contains('opacity-0');
+      if (isOpen) {
+        mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+        mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+        menuIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>';
+        document.body.style.overflow = 'hidden';
+      } else {
+        mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+        mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+        menuIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>';
+        document.body.style.overflow = '';
+      }
+    }
+
+    menuBtn.addEventListener('click', toggleMenu);
+
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if (!mobileMenu.classList.contains('opacity-0')) {
+          toggleMenu();
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
