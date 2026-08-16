@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
+<base href="../">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Easy Lanka | Services</title>
+<title>Easy Lanka | Pricing</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -78,29 +79,44 @@
   }
   .btn-primary:hover{ box-shadow: 0 10px 34px -6px rgba(232,183,93,0.7); transform: translateY(-1px); }
 
+  .btn-outline{
+    border: 1px solid var(--line);
+    color: var(--ink);
+    transition: border-color .3s ease, background .3s ease;
+  }
+  .btn-outline:hover{ border-color: rgba(47,217,199,0.5); background: var(--teal-soft); }
+
   a:focus-visible, button:focus-visible{
     outline: 2px solid var(--teal);
     outline-offset: 3px;
     border-radius: 4px;
   }
 
-  /* connecting rail behind the service cards */
-  .rail-line{
-    position:absolute; top:0; bottom:0; left:38px;
-    width:2px;
-    background: linear-gradient(180deg, transparent, var(--line) 8%, var(--line) 92%, transparent);
-    z-index:0;
+  /* featured plan card border animation */
+  .featured-border{
+    position: relative;
   }
-  .node-dot{
-    width:14px; height:14px; border-radius:999px;
-    background: var(--bg-soft);
-    border:2px solid var(--teal);
-    box-shadow: 0 0 0 4px rgba(47,217,199,0.12), 0 0 14px rgba(47,217,199,0.5);
-    flex-shrink:0;
+  .featured-border::before{
+    content:'';
+    position:absolute; inset:0;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: linear-gradient(120deg, var(--gold), var(--teal), var(--gold));
+    background-size: 200% 200%;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: border-flow 6s linear infinite;
+    pointer-events: none;
   }
-  .node-dot.gold{
-    border-color: var(--gold);
-    box-shadow: 0 0 0 4px rgba(232,183,93,0.12), 0 0 14px rgba(232,183,93,0.5);
+  @keyframes border-flow{
+    0%{ background-position: 0% 50%; }
+    100%{ background-position: 200% 50%; }
+  }
+
+  .check-icon{
+    color: var(--teal);
+    flex-shrink: 0;
   }
 
   /* නව මෙනු අකුරු සහ ස්ටයිල් (Font Size වැඩි කර, Semi-bold කර ඇත) */
@@ -131,12 +147,12 @@
 </head>
 <body class="bg-mesh antialiased selection:bg-[var(--teal)] selection:text-[#0A0F1C]">
 
- <!-- Navigation Bar -->
+    <!-- Navigation Bar -->
   <nav class="sticky top-0 z-50 backdrop-blur-xl bg-[#080D18]/90 border-b border-[var(--line)] px-6 md:px-14 py-4 flex items-center justify-between">
     
     <!-- Logo & Short Description -->
     <div class="flex items-center gap-4">
-      <a href="index.html" class="flex items-center gap-2.5 text-lg font-semibold tracking-tight text-white">
+      <a href="./" class="flex items-center gap-2.5 text-lg font-semibold tracking-tight text-white">
         <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M13 1L25 13L13 25L1 13L13 1Z" stroke="url(#navGrad)" stroke-width="1.4"/>
           <path d="M13 7L19 13L13 19L7 13L13 7Z" stroke="url(#navGrad)" stroke-width="1.4"/>
@@ -151,11 +167,11 @@
 
     <!-- Desktop Navigation Links (දකුණු කෙළවරින් ඈත් කර, නිසි ලෙස සකසා ඇත) -->
     <div class="hidden md:flex items-center gap-3 text-[var(--muted)] font-mono mr-12">
-      <a href="index.html" class="nav-link">Home</a>
-      <a href="services.html" class="nav-link active">Services</a>
-      <a href="pricing.html" class="nav-link">Pricing</a>
-      <a href="contact.html" class="nav-link">Contact</a>
-      <a href="work.html" class="nav-link">Portfolio</a>
+      <a href="./" class="nav-link">Home</a>
+      <a href="services" class="nav-link">Services</a>
+      <a href="pricing" class="nav-link active">Pricing</a>
+      <a href="contact" class="nav-link">Contact</a>
+      <a href="work" class="nav-link">Portfolio</a>
     </div>
 
     <!-- Mobile Hamburger Button -->
@@ -169,83 +185,76 @@
   <!-- Professional Mobile Drawer Menu Overlay -->
   <div id="mobile-menu" class="fixed inset-0 z-40 bg-[#080D18]/95 backdrop-blur-2xl flex flex-col justify-center px-8 transition-all duration-300 opacity-0 pointer-events-none md:hidden">
     <div class="flex flex-col space-y-6 text-center font-mono">
-      <a href="index.html" class="mobile-link text-xl text-[var(--muted)] font-semibold tracking-wider hover:text-white">Home</a>
-      <a href="services.html" class="mobile-link text-xl text-[var(--teal)] font-semibold tracking-wider hover:text-white">Services</a>
-      <a href="pricing.html" class="mobile-link text-xl text-[var(--muted)] font-semibold tracking-wider hover:text-white">Pricing</a>
-      <a href="contact.html" class="mobile-link text-xl text-[var(--muted)] font-semibold tracking-wider hover:text-white">Contact</a>
-      <a href="work.html" class="mobile-link text-xl text-[var(--muted)] font-semibold tracking-wider hover:text-white">Portfolio</a>
+      <a href="./" class="mobile-link text-xl text-[var(--muted)] font-semibold tracking-wider hover:text-white">Home</a>
+      <a href="services" class="mobile-link text-xl text-[var(--muted)] font-semibold tracking-wider hover:text-white">Services</a>
+      <a href="pricing" class="mobile-link text-xl text-[var(--teal)] font-semibold tracking-wider hover:text-white">Pricing</a>
+      <a href="contact" class="mobile-link text-xl text-[var(--muted)] font-semibold tracking-wider hover:text-white">Contact</a>
+      <a href="work" class="mobile-link text-xl text-[var(--muted)] font-semibold tracking-wider hover:text-white">Portfolio</a>
     </div>
   </div>
-
-  <!-- Services Header -->
+  <!-- Pricing Header -->
   <section class="max-w-7xl mx-auto px-6 md:px-10 pt-16 md:pt-20 pb-12 md:pb-16 text-center">
     <span data-aos="fade-up" class="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-[var(--gold)] bg-[var(--gold-soft)] border border-[var(--gold)]/25 px-4 py-1.5 rounded-full">
       <span class="w-1.5 h-1.5 rounded-full bg-[var(--gold)]"></span>
-      What We Do
+      Investment Plan
     </span>
     <h1 data-aos="fade-up" data-aos-delay="100" class="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight mt-7 mb-5">
-      Our core <span class="text-gradient font-medium">services</span>
+      Transparent <span class="text-gradient font-medium">pricing</span>
     </h1>
     <p data-aos="fade-up" data-aos-delay="200" class="text-[var(--muted)] text-base md:text-lg max-w-xl mx-auto leading-relaxed">
-      Everything your business needs to establish a world-class digital presence — from first line of code to launch day.
+      Affordable lifetime plans for websites, and tailored estimates for custom software.
     </p>
   </section>
 
-  <!-- Services Grid -->
-  <section class="max-w-7xl mx-auto px-6 md:px-10 pb-24 md:pb-28 relative">
-    <div class="rail-line hidden md:block"></div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
+  <!-- Pricing Cards -->
+  <section class="max-w-5xl mx-auto px-6 md:px-10 pb-24 md:pb-28">
+    <div class="grid md:grid-cols-2 gap-8">
 
-      <!-- 01 - Web Sites (Teal) -->
-      <div data-aos="fade-up" data-aos-delay="100" class="flex items-start gap-5">
-        <div class="node-dot mt-9 hidden md:block"></div>
-        <div class="glass p-6 md:p-8 rounded-[28px] w-full group hover:border-[var(--teal)]/40 transition-all duration-500 hover:-translate-y-1">
-          <h3 class="text-2xl font-semibold mb-3 font-display text-[var(--teal)]">01 - Web Sites</h3>
-          <p class="text-[var(--muted)] text-sm md:text-base leading-relaxed">High-performance business websites with lifetime hosting and free minor changes included.</p>
+      <!-- Website Card -->
+      <div data-aos="fade-up" data-aos-delay="100" class="featured-border glass rounded-3xl p-6 sm:p-8 lg:p-10 flex flex-col justify-between relative mt-4 md:mt-0">
+        <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[var(--gold)] to-[#F3D189] text-[#0A0F1C] text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wide font-mono">Most Popular</div>
+        <div>
+          <div class="font-mono text-xs text-[var(--teal)] mb-4 tracking-wider">01 / WEBSITE</div>
+          <h3 class="text-2xl font-semibold mb-2 font-display">Business Web Site</h3>
+          <p class="text-[var(--muted)] text-sm mb-7">Complete web solution for your enterprise.</p>
+          <div class="mb-8">
+            <span class="text-3xl sm:text-4xl font-semibold font-display text-gradient">Rs. 30,000</span>
+            <span class="text-sm text-[var(--muted)] ml-1">/ lifetime</span>
+          </div>
+          <ul class="space-y-4 mb-9 text-sm text-[var(--ink)]/90">
+            <li class="flex items-start gap-3"><svg class="check-icon w-5 h-5 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Lifetime hosting, no monthly fees</li>
+            <li class="flex items-start gap-3"><svg class="check-icon w-5 h-5 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Free minor updates and adjustments</li>
+            <li class="flex items-start gap-3"><svg class="check-icon w-5 h-5 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Major changes scoped and quoted fairly</li>
+            <li class="flex items-start gap-3"><svg class="check-icon w-5 h-5 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Fast-loading and mobile friendly</li>
+          </ul>
         </div>
+        <a href="https://wa.me/94764838636?text=Hello%20Easy%20Lanka,%20I%20would%20like%20to%20choose%20the%20Business%20Web%20Site%20plan%20(Rs.%2030,000)." target="_blank" rel="noopener" class="btn-primary w-full py-3.5 rounded-xl text-center font-semibold transition-all duration-300">Choose Plan</a>
       </div>
 
-      <!-- 02 - Mobile Apps (Gold) -->
-      <div data-aos="fade-up" data-aos-delay="200" class="flex items-start gap-5">
-        <div class="node-dot gold mt-9 hidden md:block"></div>
-        <div class="glass p-6 md:p-8 rounded-[28px] w-full group hover:border-[var(--gold)]/40 transition-all duration-500 hover:-translate-y-1">
-          <h3 class="text-2xl font-semibold mb-3 font-display text-[var(--gold)]">02 - Mobile Apps</h3>
-          <p class="text-[var(--muted)] text-sm md:text-base leading-relaxed">Cross-platform and native mobile apps designed for Android and iOS ecosystems.</p>
+      <!-- Custom Solutions Card -->
+      <div data-aos="fade-up" data-aos-delay="200" class="glass rounded-3xl p-6 sm:p-8 lg:p-10 flex flex-col justify-between hover:border-[var(--teal)]/30 transition-colors duration-500">
+        <div>
+          <div class="font-mono text-xs text-[var(--teal)] mb-4 tracking-wider">02 / CUSTOM BUILD</div>
+          <h3 class="text-2xl font-semibold mb-2 font-display">Software, Mobile &amp; Web Apps</h3>
+          <p class="text-[var(--muted)] text-sm mb-7">Custom engineering for complex business requirements.</p>
+          <div class="mb-8">
+            <span class="text-2xl sm:text-3xl font-semibold font-display">Custom Quote</span>
+            <span class="text-sm text-[var(--muted)] ml-1">(scoped with you)</span>
+          </div>
+          <ul class="space-y-4 mb-9 text-sm text-[var(--muted)]">
+            <li class="flex items-start gap-3"><svg class="check-icon w-5 h-5 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Tailored architecture design</li>
+            <li class="flex items-start gap-3"><svg class="check-icon w-5 h-5 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Secure database and cloud integration</li>
+            <li class="flex items-start gap-3"><svg class="check-icon w-5 h-5 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Android, iOS and web compatible</li>
+            <li class="flex items-start gap-3"><svg class="check-icon w-5 h-5 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Dedicated long-term support</li>
+          </ul>
         </div>
-      </div>
-
-      <!-- 03 - Web Apps (Teal) -->
-      <div data-aos="fade-up" data-aos-delay="300" class="flex items-start gap-5">
-        <div class="node-dot mt-9 hidden md:block"></div>
-        <div class="glass p-6 md:p-8 rounded-[28px] w-full group hover:border-[var(--teal)]/40 transition-all duration-500 hover:-translate-y-1">
-          <h3 class="text-2xl font-semibold mb-3 font-display text-[var(--teal)]">03 - Web Base Apps & Softwares</h3>
-          <p class="text-[var(--muted)] text-sm md:text-base leading-relaxed">Scalable cloud applications accessible seamlessly from any modern web browser.</p>
-        </div>
-      </div>
-
-      <!-- 04 - Software Development (Gold) -->
-      <div data-aos="fade-up" data-aos-delay="400" class="flex items-start gap-5">
-        <div class="node-dot gold mt-9 hidden md:block"></div>
-        <div class="glass p-6 md:p-8 rounded-[28px] w-full group hover:border-[var(--gold)]/40 transition-all duration-500 hover:-translate-y-1">
-          <h3 class="text-2xl font-semibold mb-3 font-display text-[var(--gold)]">04 - Software Development</h3>
-          <p class="text-[var(--muted)] text-sm md:text-base leading-relaxed">Custom systems built from scratch to automate your internal workflows and management.</p>
-        </div>
+        <a href="contact" class="btn-outline w-full py-3.5 rounded-xl text-center font-semibold transition-all duration-300">Request Quote</a>
       </div>
 
     </div>
   </section>
 
-  <!-- Closing CTA -->
-  <section class="max-w-7xl mx-auto px-6 md:px-10 pb-24 md:pb-28">
-    <div data-aos="fade-up" class="glass rounded-[2rem] md:rounded-[2.5rem] px-6 sm:px-12 md:px-16 py-14 text-center relative overflow-hidden">
-      <div class="absolute inset-0 opacity-40 pointer-events-none" style="background: radial-gradient(60% 80% at 50% 0%, rgba(47,217,199,0.14), transparent 70%);"></div>
-      <h2 class="text-3xl md:text-5xl font-semibold tracking-tight mb-5 relative">Not sure which service fits?</h2>
-      <p class="text-[var(--muted)] text-sm md:text-base max-w-lg mx-auto mb-8 md:mb-10 relative">Tell us about your business and we'll recommend the right starting point.</p>
-      <a href="contact.html" class="btn-primary px-9 py-4 rounded-full font-semibold inline-block transition-all duration-300 relative">Book a Call</a>
-    </div>
-  </section>
-
-  <!-- Footer -->
+<!-- Footer -->
   <footer class="border-t border-[var(--line)] px-6 md:px-10 py-12 mt-20">
     <div class="max-w-7xl mx-auto text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-4">
       <div class="text-sm text-[var(--muted)] font-mono">
