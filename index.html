@@ -60,7 +60,6 @@
     backdrop-filter: blur(14px);
   }
 
-  /* Animation box සඳහා blur එක ඉවත් කර clear ලෙස සකසා ඇත */
   .animation-clear-box{
     background: rgba(12, 20, 36, 0.4);
     border: 1px solid var(--line);
@@ -197,7 +196,7 @@
     flex-shrink:0;
   }
 
-  /* නව මෙනු අකුරු සහ ස්ටයිල් (Font Size වැඩි කර, Semi-bold කර ඇත) */
+  /* නව මෙනු අකුරු සහ ස්ටයිල් */
   .nav-link {
     padding: 9px 20px;
     border-radius: 999px;
@@ -221,15 +220,7 @@
   @media (prefers-reduced-motion: reduce){
     *{ animation: none !important; transition: none !important; }
   }
-
-  /* මොබයිල් ස්ක්‍රීන් එකෙන් පිටුව පැත්තකට ඇදී යාම වැළැක්වීමට */
-  html, body {
-    width: 100%;
-    max-width: 100%;
-    overflow-x: hidden !important;
-  }
 </style>
-
 </head>
 <body class="bg-mesh antialiased selection:bg-[var(--teal)] selection:text-[#0A0F1C]">
 
@@ -251,7 +242,7 @@
       <span class="hidden lg:inline-block text-xs font-mono text-[var(--muted)] tracking-wider">Digital Studio · Sri Lanka</span>
     </div>
 
-    <!-- Desktop Navigation Links (දකුණු කෙළවරින් ඈත් කර, නිසි ලෙස සකසා ඇත) -->
+    <!-- Desktop Navigation Links -->
     <div class="hidden md:flex items-center gap-3 text-[var(--muted)] font-mono mr-12">
       <a href="./" class="nav-link active">Home</a>
       <a href="services" class="nav-link">Services</a>
@@ -280,7 +271,7 @@
   </div>
 
   <!-- Hero Section -->
-  <div class="relative overflow-hidden">
+  <div class="relative">
     <!-- Hero Background Image Restored -->
     <div class="absolute inset-0 opacity-[0.16] pointer-events-none" aria-hidden="true">
       <img src="https://images.unsplash.com/photo-1758873268745-dd2cf0d677b5?auto=format&fit=crop&q=80&w=1800" alt="" class="w-full h-full object-cover" style="filter: grayscale(60%) contrast(1.1) brightness(0.75);">
@@ -618,11 +609,6 @@
     </div>
   </footer>
 
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
-  AOS.init({ once: true, duration: 800, easing: 'ease-out-cubic' });
-</script>
-
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
     AOS.init({ once: true, duration: 800, easing: 'ease-out-cubic' });
@@ -658,6 +644,5 @@
       });
     });
   </script>
-
 </body>
 </html>
