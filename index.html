@@ -37,12 +37,17 @@
     --teal-soft: rgba(47,217,199,0.14);
   }
   *{ scrollbar-color: var(--surface-2) var(--bg); }
+  html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden !important;
+  }
   body{
     font-family:'Inter', sans-serif;
     background: var(--bg);
     color: var(--ink);
-    overflow-x: hidden;
   }
+
   h1,h2,h3,h4,.font-display{ font-family:'Fraunces','serif'; }
   .font-mono{ font-family:'JetBrains Mono', monospace; }
 
